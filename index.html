@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#ec4899">
+<title>Pitzer Produkt-Assistent</title>
+<style>
+:root{--pink:#ec4899;--pinkdark:#be185d;--ink:#18181b;--muted:#71717a;--line:#e4e4e7;--bg:#fafafa;--white:#fff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+header{background:linear-gradient(120deg,#ec4899,#f9a8d4);color:#fff;padding:22px 18px 25px;border-radius:0 0 24px 24px}
+header .brand{font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase}h1{margin:5px 0;font-size:26px;line-height:1.15}header p{margin:8px 0 0;opacity:.95}
+main{max-width:780px;margin:0 auto;padding:16px 14px 40px}.notice{background:#fff1f2;border:1px solid #fecdd3;border-radius:14px;padding:12px 14px;font-size:14px;margin-bottom:14px}
+.card{background:var(--white);border:1px solid var(--line);border-radius:18px;padding:17px;margin:13px 0;box-shadow:0 2px 10px #18181b08}
+h2{font-size:18px;margin:0 0 13px}.field{margin:12px 0}.field label{display:block;font-weight:650;font-size:14px;margin-bottom:6px}
+input,select,textarea{font:inherit;width:100%;border:1px solid #d4d4d8;border-radius:11px;padding:12px;background:#fff;color:var(--ink);min-height:46px}
+textarea{min-height:86px;resize:vertical}.hint{font-size:12px;color:var(--muted);margin-top:5px}
+.uploads{display:grid;grid-template-columns:1fr 1fr;gap:10px}.upload{border:1.5px dashed #f0abcf;border-radius:13px;padding:12px;background:#fff8fc}.upload input{border:0;padding:5px 0;min-height:unset;font-size:13px}.preview{display:flex;gap:8px;flex-wrap:wrap;margin-top:9px}.preview img{width:82px;height:82px;object-fit:contain;background:#f4f4f5;border-radius:8px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+button{font:inherit;font-weight:750;border:0;border-radius:12px;padding:13px 16px;min-height:48px;cursor:pointer}
+.primary{background:var(--pink);color:white;width:100%}.secondary{background:#f4f4f5;color:var(--ink);width:100%;border:1px solid var(--line)}.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.checkline{display:flex;align-items:flex-start;gap:10px;margin:10px 0}.checkline input{width:20px;min-height:20px;margin-top:2px;accent-color:var(--pink)}
+.result{white-space:pre-wrap;background:#18181b;color:#fafafa;border-radius:14px;padding:15px;font-size:13px;overflow-wrap:anywhere;min-height:80px}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:12px}
+@media(max-width:460px){.uploads,.row,.actions{grid-template-columns:1fr}header{padding-top:19px}}
+</style>
+</head>
+<body>
+<header><div class="brand">PITZER · HOME OF TOYS</div><h1>Produkt-Assistent</h1><p>Produkte vorbereiten – bequem auf deinem Tablet.</p></header>
+<main>
+<div class="notice"><b>Wichtige Regel:</b> Preisaufkleber auf Fotos immer ignorieren. Verkaufspreise werden aus Einkaufspreis und Marktvergleich vorgeschlagen, niemals vom Aufkleber übernommen.</div>
+<form id="productForm">
+<section class="card">
+<h2>1 · Produktfotos</h2>
+<div class="uploads">
+<div class="upload"><label for="productPhoto">Produkt / Verpackung</label><input id="productPhoto" type="file" accept="image/*" capture="environment"><div class="hint">Vorderseite mit Name und Marke</div><div id="preview1" class="preview"></div></div>
+<div class="upload"><label for="eanPhoto">EAN / Barcode</label><input id="eanPhoto" type="file" accept="image/*" capture="environment"><div class="hint">Ziffern unter dem Barcode lesbar</div><div id="preview2" class="preview"></div></div>
+</div>
+<div class="field"><label for="ean">EAN (optional)</label><input id="ean" placeholder="Aus Foto ermitteln, wenn leer"></div>
+</section>
+<section class="card">
+<h2>2 · Einkauf & Verkauf</h2>
+<div class="row">
+<div class="field"><label for="cost">Einkaufspreis (€) *</label><input id="cost" type="number" step="0.01" min="0" placeholder="z. B. 3,74" required></div>
+<div class="field"><label for="price">Verkaufspreis (€), falls festgelegt</label><input id="price" type="number" step="0.01" min="0" placeholder="Leer = Vorschlag anfordern"></div>
+</div>
+<div class="row">
+<div class="field"><label for="stock">Lagerbestand (optional)</label><input id="stock" type="number" min="0" step="1" placeholder="z. B. 5"></div>
+<div class="field"><label for="condition">Zustand</label><select id="condition"><option>Neu</option><option>Gebraucht</option></select></div>
+</div>
+<div class="field"><label for="extraCosts">Zusätzliche Kosten je Stück (€), optional</label><input id="extraCosts" type="number" min="0" step="0.01" placeholder="Verpackung, Gebühren etc."></div>
+</section>
+<section class="card">
+<h2>3 · Produkt und Shop</h2>
+<div class="field"><label for="notes">Besondere Hinweise</label><textarea id="notes" placeholder="z. B. Produktvariante, Zielgruppe oder gewünschte Marge"></textarea></div>
+<div class="field"><label for="images">Bildwunsch</label><select id="images"><option>Originalbilder vom Hersteller bevorzugen</option><option>Zusätzliche eigene Produktmotive erstellen</option><option>Originalbilder und zusätzliche Motive</option></select></div>
+<div class="field"><label for="status">Shopify-Status</label><select id="status"><option>Entwurf zur Prüfung</option><option>Aktiv veröffentlichen nach Freigabe</option></select></div>
+<label class="checkline"><input type="checkbox" id="categories" checked><span>Passende Shopify-Kategorie und Shop-Kollektionen automatisch vorschlagen</span></label>
+<label class="checkline"><input type="checkbox" id="seo" checked><span>Deutsche Beschreibung, SEO-Titel, Meta-Beschreibung und Bild-Alt-Texte erstellen</span></label>
+<label class="checkline"><input type="checkbox" id="safety" checked><span>Maße, Gewicht, Hersteller und Sicherheitsangaben recherchieren; Unbekanntes kennzeichnen</span></label>
+</section>
+<button class="primary" type="submit">Anfrage für ChatGPT vorbereiten</button>
+</form>
+<section class="card" id="outputCard" hidden>
+<h2>4 · Fertige Anfrage</h2><p class="hint">Kopiere den Text in deinen ChatGPT-Chat und hänge dort die beiden Fotos an. Diese lokale Seite überträgt nichts automatisch zu Shopify.</p>
+<div id="output" class="result"></div>
+<div class="actions" style="margin-top:10px"><button class="primary" id="copy" type="button">Anfrage kopieren</button><button class="secondary" id="download" type="button">Produktdaten als TXT speichern</button></div>
+</section>
+<footer>Erste lokale Version · Speichert keine Produktfotos auf einem Server · Kein direkter Shopify-Zugriff in dieser Datei</footer>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+function preview(inputId, previewId){$(inputId).addEventListener('change',()=>{const box=$(previewId);box.innerHTML='';[...$(inputId).files].forEach(f=>{const im=document.createElement('img');im.alt='Foto-Vorschau';im.src=URL.createObjectURL(f);box.appendChild(im)})})}
+preview('productPhoto','preview1');preview('eanPhoto','preview2');
+function euro(v){return v?`${v.replace('.',',')} €`:'nicht angegeben'}
+$('productForm').addEventListener('submit',e=>{
+e.preventDefault();
+const p=$('productPhoto').files[0], b=$('eanPhoto').files[0];
+const msg=`Ich bearbeite ein neues Produkt für Pitzer – Home of Toys anhand der angehängten Produkt- und EAN-Fotos.
+
+Feste Regel: Alle Preisaufkleber auf Produktfotos ignorieren. Niemals daraus einen Verkaufspreis ableiten.
+
+EAN: ${$('ean').value.trim()||'aus dem Foto ermitteln'}
+Einkaufspreis: ${euro($('cost').value)}
+Verkaufspreis: ${$('price').value?euro($('price').value):'recherchieren und Vorschlag machen'}
+Lagerbestand: ${$('stock').value||'noch nicht angegeben'}
+Zustand: ${$('condition').value}
+Zusätzliche Kosten je Stück: ${euro($('extraCosts').value)}
+Bildwunsch: ${$('images').value}
+Shopify-Status: ${$('status').value}
+Kategorien und Kollektionen: ${$('categories').checked?'passende Zuordnung vorschlagen':'nicht automatisch zuordnen'}
+SEO: ${$('seo').checked?'deutsche Produktbeschreibung, SEO-Titel, Meta-Beschreibung und Alt-Texte erstellen':'nicht erforderlich'}
+Hersteller-/Sicherheitsdaten: ${$('safety').checked?'Marke, Hersteller, Maße, Gewicht und Sicherheitsangaben recherchieren; Unbekanntes kennzeichnen':'nur belegbare Grunddaten'}
+Weitere Hinweise: ${$('notes').value.trim()||'keine'}
+
+Erstelle einen vollständigen Shopify-Produktdatensatz. Erfinde keine Daten; kennzeichne Unbekanntes. Berechne einen nachvollziehbaren Preisvorschlag. Prüfe die passende Shopify-Produktkategorie und meine Shop-Kollektionen. Bereite das Produkt als Entwurf vor, sofern nicht anders freigegeben. Speichere oder veröffentliche nichts, wenn die Verbindung oder erforderliche Angaben fehlen.
+Fotos ausgewählt: ${p?'Produktfoto ('+p.name+')':'Produktfoto noch nicht ausgewählt'}; ${b?'EAN-Foto ('+b.name+')':'EAN-Foto noch nicht ausgewählt'}. Bitte hänge die ausgewählten Fotos zusätzlich an deine Chatnachricht an.`;
+$('output').textContent=msg;$('outputCard').hidden=false;$('outputCard').scrollIntoView({behavior:'smooth'});
+});
+$('copy').addEventListener('click',async()=>{try{await navigator.clipboard.writeText($('output').textContent);$('copy').textContent='Kopiert!'}catch(e){const r=document.createRange();r.selectNodeContents($('output'));const s=getSelection();s.removeAllRanges();s.addRange(r);$('copy').textContent='Text markiert – kopiere ihn manuell'}});
+$('download').addEventListener('click',()=>{const blob=new Blob([$('output').textContent],{type:'text/plain;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='pitzer-produktanfrage.txt';a.click();URL.revokeObjectURL(a.href)});
+</script>
+</body></html>
